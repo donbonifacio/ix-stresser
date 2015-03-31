@@ -2,11 +2,12 @@
   (require [clj-http.client :as client]))
 
 (def url "http://donbonifacio.bizflow-makeover.com")
+(def ix-api-key "donbonifacio")
 (def ports [3001 3002])
 
 (defn access-url
   [path]
-  (str url ":" (rand-nth ports) "/" path "?api_key=donbonifacio"))
+  (str url ":" (rand-nth ports) "/" path "?api_key=" ix-api-key))
 
 (defn invoice-sequence-from-response
   [response]

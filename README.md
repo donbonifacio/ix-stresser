@@ -1,14 +1,28 @@
-# ix-stresser
+# InvoiceXpress stresser/verifier
 
-A Clojure library designed to ... well, that part is up to you.
+You need [lein](http://leiningen.org/) installed. This script will launch
+several threads that create and finalize documents on InvoiceXpress,
+concurrently.
 
-## Usage
+Edit `core_test.clj` to change the defaults:
 
-FIXME
+```clojure
+(def threads 5)
+(def docs-per-thread 200)
+```
 
-## License
+Edit `core.clj` to change the default connection:
 
-Copyright © 2015 FIXME
+```clojure
+(def url "http://donbonifacio.bizflow-makeover.com")
+(def ix-api-key "****")
+(def ports [3001 3002])
+```
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+The script will randomly iterate for each given port.
+
+Run with:
+
+```
+lein test
+```
