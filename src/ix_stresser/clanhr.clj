@@ -15,7 +15,7 @@
                 :conn-timeout 0
                 :throw-exceptions false
                 :accept :json
-                :body (str "{\"email\": \"donbonifacio@gmail.com\", \"password\": \"freedomlike\"}")}))
+                :body (str "{\"email\": \"test@test.com\", \"password\": \"test\"}")}))
 
 (defn do-failed-login
   []
@@ -25,7 +25,7 @@
                 :conn-timeout 0
                 :throw-exceptions false
                 :accept :json
-                :body (str "{\"email\": \"ddonbonifacio@gmail.com\", \"password\": \"freedomlike\"}")}))
+                :body (str "{\"email\": \"donbonifacio@gmail.com\", \"password\": \"assobio\"}")}))
 
 (defn do-failed-new-registration
   []
@@ -35,7 +35,7 @@
                 :conn-timeout 0
                 :throw-exceptions false
                 :accept :json
-                :body (str "{\"user\":{\"personal-data\":{\"first-name\":\"Pedro\",\"last-name\":\"Santos\"},\"company-data\":{\"email\":\"donbonifacio@gmail.com\",\"phone\":\"212122121\"},\"system\":{\"password\":\"freedomlike\"}},\"account\":{\"company\":\"RUPEAL\",\"terms\":true,\"number-of-collaborators\":\"20\"}}")}))
+                :body (str "{\"user\":{\"personal-data\":{\"first-name\":\"Pedro\",\"last-name\":\"Santos\"},\"company-data\":{\"email\":\"donbonifacio@gmail.com\",\"phone\":\"212122121\"},\"system\":{\"password\":\"assobio\"}},\"account\":{\"company\":\"RUPEAL\",\"terms\":true,\"number-of-collaborators\":\"20\"}}")}))
 
 (def funcs [do-login do-failed-login do-failed-new-registration])
 (defn func [] (rand-nth funcs) do-login)
