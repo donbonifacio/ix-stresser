@@ -2,10 +2,10 @@
   (:require [clojure.test :refer :all]
             [ix-stresser.core :refer :all]))
 
-(def threads 5)
-(def docs-per-thread 200)
+(def threads 1)
+(def docs-per-thread 1)
 
-(deftest create-finalinvoice-test
+#_(deftest create-finalinvoice-test
   (let [response (create-invoice)
         invoice-id (invoice-id-from-response response)]
     (is (< 0 invoice-id))
@@ -15,17 +15,18 @@
 
 (defn create-many-documents
   []
-  (println "Creating " docs-per-thread " docs...")
+  (println (str "Creating " docs-per-thread " docs..."))
   (take docs-per-thread
     (repeatedly
       (fn []
         (let [resp1 (create-invoice)
             invoice-id (invoice-id-from-response resp1)]
+          (prn (str "Created " invoice-id))
           invoice-id)))))
 
 (defn finalize-documents
   [doc-ids]
-  (println "Finalizing " (count doc-ids) " docs...")
+  (println (str "Finalizing " (count doc-ids) " docs..."))
   (-> (map (fn [invoice-id]
              (let [resp2 (future (finalize-invoice invoice-id))
                    resp3 (future (finalize-invoice invoice-id))

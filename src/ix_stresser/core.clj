@@ -1,9 +1,9 @@
 (ns ix-stresser.core
   (require [clj-http.client :as client]))
 
-(def url "http://donbonifacio.bizflow-makeover.com")
+(def url "http://boss.bizflow.com")
 (def ix-api-key "donbonifacio")
-(def ports [3001 3002])
+(def ports [3001 3002 3003])
 
 (defn access-url
   [path]
@@ -33,8 +33,8 @@
                   :accept :xml
                   :body (str "<?xml version='1.0' encoding='UTF-8'?>
                         <invoice>
-                        <date>30/03/2015</date>
-                        <due_date>30/03/2015</due_date>
+                        <date>14/07/2016</date>
+                        <due_date>14/07/2016</due_date>
                         <client>
                           <name>Bruce Norris</name>
                         </client>
