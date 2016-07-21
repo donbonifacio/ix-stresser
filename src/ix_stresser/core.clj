@@ -6,6 +6,15 @@
             [result.core :as result]
             [clojure.core.async :as async :refer [<! <!! go go-loop]]))
 
+(def current-port-index (atom 0))
+
+(defn balancer [options]
+  (let [ix-ports (:ix-ports options)
+        lucky (swap! current-port-index inc)
+        current-index (mod lucky (count ix-ports))]
+    #_(prn lucky current-index (nth ix-ports current-index))
+    (assoc options :port (nth ix-ports current-index))))
+
 (defn create-bulk-documents
   [{:keys [docs-per-thread template] :as options}]
   (println)
@@ -13,7 +22,7 @@
   (take docs-per-thread
     (repeatedly
       (fn []
-        (let [document (<!! (api/create options template))]
+        (let [document (<!! (api/create (balancer options) template))]
           (if (result/succeeded? document)
             (do (print ".") (flush))
             (prn (str "Error " document)))
@@ -30,9 +39,9 @@
             final-documents []]
     (let [document (first documents)
 
-          try1 (api/finalize options document)
-          try2 (api/finalize options document)
-          try3 (api/finalize options document)
+          try1 (api/finalize (balancer options) document)
+          try2 (api/finalize (balancer options) document)
+          try3 (api/finalize (balancer options) document)
 
           result1 (<! try1)
           result2 (<! try2)
@@ -55,9 +64,9 @@
             final-documents []]
     (let [document (first documents)
 
-          try1 (api/settle options document)
-          try2 (api/settle options document)
-          try3 (api/settle options document)
+          try1 (api/settle (balancer options) document)
+          try2 (api/settle (balancer options) document)
+          try3 (api/settle (balancer options) document)
 
           result1 (<! try1)
           result2 (<! try2)
@@ -73,10 +82,17 @@
         (recur documents (conj final-documents result))
         (conj final-documents result)))))
 
+(defn ix-ports []
+  (if-let [raw (env :ix-ports)]
+    (clojure.string/split raw #",")
+    ["3001"]))
+
 (defn defaults [args]
-  (merge {:docs-per-thread 3
+  (merge {:docs-per-thread 30
           :threads 1
           :simul-state-changes 3
+          :ix-ports (ix-ports)
+          :ix-server-dir (or (:ix-server-dir args) (env :ix-server-dir) ".")
           :template (-> (document/new-invoice)
                         (assoc :date "21/07/2016")
                         (assoc :due_date "21/07/2016"))
@@ -102,7 +118,7 @@
     (println "end:" end)
     (println "count:" (count numbers))
     (assert (= (count numbers) (count documents)))
-    (assert (= (+ start (count documents) -1) end))
+    (assert (= (+ start (count documents) -1) end) numbers)
     (result/success)))
 
 (defn verify-settled [options documents]
@@ -112,7 +128,7 @@
            receipts []]
       (when-let [document (first documents)]
         (assert (= "settled" (:status document)))
-        (let [related (<!! (api/related-documents options document))
+        (let [related (<!! (api/related-documents (balancer options) document))
               receipts (conj receipts (-> related :documents first))]
           (if (seq (rest documents))
             (recur (rest documents) receipts)
@@ -122,6 +138,8 @@
 
 (defn prn-options [options]
   (prn "-- Options")
+  (prn ":ix-ports" (:ix-ports options))
+  (prn ":ix-server-dir" (:ix-server-dir options))
   (prn ":api-path" (:host options) ":" (:port options) "/?api_key=" (:api-key options))
   (prn ":threads" (:threads options))
   (prn ":docs-per-thread" (:docs-per-thread options))
