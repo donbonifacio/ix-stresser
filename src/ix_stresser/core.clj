@@ -29,6 +29,7 @@
   (go-loop [documents documents
             final-documents []]
     (let [document (first documents)
+
           try1 (api/finalize options document)
           try2 (api/finalize options document)
           try3 (api/finalize options document)
@@ -47,8 +48,35 @@
         (recur documents (conj final-documents result))
         (conj final-documents result)))))
 
+(defn settle-documents [options documents]
+  (println)
+  (println "-- Settling documents")
+  (go-loop [documents documents
+            final-documents []]
+    (let [document (first documents)
+
+          try1 (api/settle options document)
+          try2 (api/settle options document)
+          try3 (api/settle options document)
+
+          result1 (<! try1)
+          result2 (<! try2)
+          result3 (<! try3)
+
+          result (success-result [result1 result2 result3])
+          sequence-number (:sequence_number result)]
+
+      (if (nil? sequence-number)
+        (prn result1 result2 result3)
+        (do (print "S") (flush)))
+      (if-let [documents (seq (rest documents))]
+        (recur documents (conj final-documents result))
+        (conj final-documents result)))))
+
 (defn defaults [args]
   (merge {:docs-per-thread 3
+          :threads 1
+          :simul-state-changes 3
           :template (-> (document/new-invoice)
                         (assoc :date "21/07/2016")
                         (assoc :due_date "21/07/2016"))
@@ -69,7 +97,7 @@
         start (first numbers)
         end (last numbers)]
     (println)
-    (println "-- Finalize resul")
+    (println "-- Finalize" (-> documents first :type) "result")
     (println "start:" start)
     (println "end:" end)
     (println "count:" (count numbers))
@@ -77,11 +105,27 @@
     (assert (= (+ start (count documents) -1) end))
     (result/success)))
 
+(defn verify-settled [options documents]
+    (println)
+    (println "-- Settled result")
+    (loop [documents documents
+           receipts []]
+      (when-let [document (first documents)]
+        (assert (= "settled" (:status document)))
+        (let [related (<!! (api/related-documents options document))
+              receipts (conj receipts (-> related :documents first))]
+          (if (seq (rest documents))
+            (recur (rest documents) receipts)
+            (verify-finalized receipts)
+            )
+          ))))
+
 (defn prn-options [options]
   (prn "-- Options")
   (prn ":api-path" (:host options) ":" (:port options) "/?api_key=" (:api-key options))
-  (prn ":threads" 1)
-  (prn ":docs-per-thread" (:docs-per-thread options)))
+  (prn ":threads" (:threads options))
+  (prn ":docs-per-thread" (:docs-per-thread options))
+  (prn ":simul-state-changes" (:simul-state-changes options)))
 
 (defn runner [args]
   (<!! (go
@@ -89,5 +133,8 @@
       (prn-options options)
       (let [documents (doall (create-bulk-documents options))
             finalized (<! (finalize-documents options documents))
-            finalize-result (verify-finalized finalized)]
+            finalize-result (verify-finalized finalized)
+            settled (<! (settle-documents options finalized))
+            settle-result (verify-settled options settled)
+            ]
         (prn "OK!"))))))
