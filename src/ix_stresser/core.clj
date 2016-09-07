@@ -8,6 +8,11 @@
 
 (def current-port-index (atom 0))
 
+(defn new-invoice []
+  (-> (document/new-invoice)
+      (assoc :date "21/07/2016")
+      (assoc :due_date "21/07/2016")))
+
 (defn balancer [options]
   (let [ix-ports (:ix-ports options)
         lucky (swap! current-port-index inc)
@@ -22,7 +27,8 @@
   (take docs-per-thread
     (repeatedly
       (fn []
-        (let [document (<!! (api/create (balancer options) template))]
+        (let [template (or template (new-invoice))
+              document (<!! (api/create (balancer options) template))]
           (if (result/succeeded? document)
             (do (print ".") (flush))
             (prn (str "Error " document)))
@@ -93,9 +99,7 @@
           :simul-state-changes 3
           :ix-ports (ix-ports)
           :ix-server-dir (or (:ix-server-dir args) (env :ix-server-dir) ".")
-          :template (-> (document/new-invoice)
-                        (assoc :date "21/07/2016")
-                        (assoc :due_date "21/07/2016"))
+          :template (new-invoice)
           :host (or (:host args) (env :ix-api-host))
           :port (or (:port args) (env :ix-api-port) "3001")
           :api-key (or (:api-key args) (env :ix-api-key))}
@@ -156,3 +160,6 @@
             settle-result (verify-settled options settled)
             ]
         (prn "OK!"))))))
+
+(defn -main [& args]
+  (runner {}))
