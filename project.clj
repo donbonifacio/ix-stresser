@@ -8,5 +8,5 @@
   :main ix-stresser.core
   :dependencies [[org.clojure/clojure "1.9.0-alpha10"]
                  [org.clojure/core.async "0.2.385"]
-                 [invoice-spec "1.1.0"]]
+                 [invoice-spec "1.3.0"]]
   :plugins [[lein-environ "1.0.3"]])
