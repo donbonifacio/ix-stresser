@@ -4,9 +4,12 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :aliases {"stress-sequences" ["run"]
-            "stress-pdfs" ["run" "-m" "ix-stresser.pdf/-main"]}
+            "stress-pdfs" ["run" "-m" "ix-stresser.pdf/-main"]
+            "stress-pdfNode" ["run" "-m" "ix-stresser.pdfnode/-main"]}
   :main ix-stresser.core
   :dependencies [[org.clojure/clojure "1.9.0-alpha10"]
                  [org.clojure/core.async "0.2.385"]
-                 [invoice-spec "1.3.0"]]
+                 [org.clojure/data.json "0.2.6"]
+                 [invoice-spec "1.3.0"]
+                 [clj-http "3.2.0"]]
   :plugins [[lein-environ "1.0.3"]])

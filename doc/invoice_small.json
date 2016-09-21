@@ -1,0 +1,639 @@
+{
+  "token": "15bfebf975034d9c8279da56900a43dd",
+  "replyto": "http:\/\/www.google.com",
+  "filename": "test_invoice_small.pdf",
+  "contents": {
+    "system": "invoicexpress",
+    "pdf_template": "classic",
+    "html_template": "invoice",
+    "document_id": 1,
+    "data": {
+      "logo_img": "http:\/\/localhost:3000\/sample\/img\/rupeal_logo.png",
+      "account": {
+        "organization_name": "SWAT",
+        "address": "Avenida Duque D'avila",
+        "postal_code": "1000-123",
+        "city": "Lisboa",
+        "country": "Portugal",
+        "email": {
+          "label": "Email:",
+          "value": "info11@example.com"
+        },
+        "fiscal_id": {
+          "label": "Vat Number:",
+          "value": "504301160"
+        },
+        "phone": {
+          "label": "Phone:",
+          "value": "213456789"
+        },
+        "fax": {
+          "label": "Fax:",
+          "value": "213456798"
+        },
+        "website": {
+          "label": "Website:",
+          "value": "www.weareswat.com"
+        },
+        "capital_funds": {
+          "label": "Capital Funds:",
+          "value": "50000"
+        },
+        "conservatory": {
+          "label": "Conservatory:",
+          "value": "Lisboa"
+        }
+      },
+      "client": {
+        "name": "Luke Skywalker",
+        "address": "LX Factory",
+        "postal_code": "1030-555",
+        "city": "Lisboa",
+        "country": "Portugal"
+      },
+      "copies": {
+        "number": 1,
+        "original": "Original",
+        "duplicate": "Duplicate",
+        "triplicate": "Triplicate",
+        "quadriplicate": "Quadriplicate"
+      },
+      "title": "Invoice nº I2016/7359",
+      "details": {
+        "date": {
+          "label": "Date",
+          "value": "17/08/2016"
+        },
+        "due_date": {
+          "label": "Due",
+          "value": "17/08/2016"
+        },
+        "client_fiscal_id": {
+          "label": "Vat Number",
+          "value": "504301161"
+        },
+        "reference": {
+          "label": "P.O.",
+          "value": "12345"
+        }
+      },
+      "invoice_items": {
+        "labels": {
+          "name": "Item",
+          "description": "Description",
+          "price": "Price",
+          "quantity": "Qty",
+          "taxes": "VAT",
+          "discount": "Dsc.",
+          "subtotal": "Total"
+        },
+        "items": [
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          },
+          {
+            "name": "iPhone",
+            "description": "iPhone 7",
+            "unit_price": "799.0000€",
+            "quantity": 1.0,
+            "tax_value": "23.00",
+            "discount": "0.0",
+            "subtotal": "799.0000€"
+          }
+        ]
+      },
+      "tax_items": {
+        "labels": {
+          "name": "Tax",
+          "incidence": "Incidence",
+          "amount": "Amount"
+        },
+        "taxes": [
+          {
+            "name": "IVA23",
+            "incidence": "15.00€",
+            "amount": "3.45€"
+          }
+        ]
+      },
+      "summary": {
+        "title": "Summary",
+        "sum": {
+          "label": "SUM",
+          "value": "15.00€"
+        },
+        "discount": {
+          "label": "Discount",
+          "value": "0.00€"
+        },
+        "retention": {
+          "label": "Retention",
+          "value": "0.00€"
+        },
+        "total_before_taxes": {
+          "label": "w/o VAT",
+          "value": "15.00€"
+        },
+        "total_with_taxes": {
+          "label": "VAT",
+          "value": "18.45€"
+        }
+      },
+      "totals": {
+        "total": {
+          "label": "Total",
+          "value": "18.45€"
+        },
+        "total_multicurrency": {
+          "label": "Total in USD",
+          "value": "20.45$"
+        },
+        "rate": {
+          "label": "Exchange Rate",
+          "value": "1.2"
+        }
+      },
+      "cancellation_reason": {
+        "label": "Cancel message",
+        "value": "Reason for cancellation"
+      },
+      "observations": {
+        "label": "Observations",
+        "value": "No need for observations."
+      },
+      "mb_data": {
+        "title": "Multibanco",
+        "entity": {
+          "label": "Entity",
+          "value": 10611
+        },
+        "reference": {
+          "label": "Reference",
+          "value": "520 000 749"
+        },
+        "amount": {
+          "label": "Value",
+          "value": "18.45€"
+        }
+      },
+      "bank_data": {
+        "title": "Banking Details",
+        "bank_data_1": {
+          "label": "IBAN",
+          "value": "0020000001223456600677"
+        },
+        "bank_data_2": {
+          "label": "NIB",
+          "value": "200000012234566006"
+        },
+        "bank_data_3": {
+          "label": "SWIFT/BIC",
+          "value": "12000000122345660061111"
+        }
+      },
+      "footer": {
+        "document_footer": "Computer processed by InvoiceXpress - Certified program nº 192",
+        "custom_footer": "Powered by SWAT",
+        "iva_caixa": "IVA - regime de caixa"
+      }
+    }
+  }
+}
