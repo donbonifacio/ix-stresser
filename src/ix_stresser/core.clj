@@ -10,8 +10,8 @@
 
 (defn new-invoice []
   (-> (document/new-invoice)
-      (assoc :date "21/07/2016")
-      (assoc :due_date "21/07/2016")))
+      (assoc :date "21/09/2016")
+      (assoc :due_date "21/09/2016")))
 
 (defn balancer [options]
   (let [ix-ports (:ix-ports options)
