@@ -50,10 +50,10 @@
 
 (defn runner [args]
   (let [endpoint (or (first args) "/pdf/applyTemplate")]
-    ;; (start-stressing [dev-url] endpoint (read-all-files)) ;; stressing localy
+    (start-stressing [dev-url] endpoint (read-all-files)) ;; stressing localy
     ;; (start-stressing [stag-url] endpoint (read-all-files)) ;; stressing staging
     ;; (start-stressing [prod-url] endpoint (read-all-files)) ;; stressing production
-    (start-stressing [stag-url, prod-url] endpoint (read-all-files)) ;; stressing multiple envs
+    ;; (start-stressing [stag-url, prod-url] endpoint (read-all-files)) ;; stressing multiple envs
     (prn "OK!")))
 
 (defn -main [& args]

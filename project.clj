@@ -6,7 +6,8 @@
   :aliases {"stress-sequences" ["run"]
             "stress-basic-requests" ["run" "-m" "ix-stresser.basic-requests/-main"]
             "stress-pdfs" ["run" "-m" "ix-stresser.pdf/-main"]
-            "stress-pdfNode" ["run" "-m" "ix-stresser.pdfnode/-main"]}
+            "stress-pdfnode" ["run" "-m" "ix-stresser.pdfnode/-main"]
+            "stress-pdfbulknode" ["run" "-m" "ix-stresser.pdfbulknode/-main"]}
   :main ix-stresser.core
   :dependencies [[org.clojure/clojure "1.9.0-alpha10"]
                  [org.clojure/core.async "0.2.385"]
