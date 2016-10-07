@@ -36,19 +36,26 @@
           []
           existing-files))
 
+(defn setup-bulk-contents []
+  (->> (bulk-contents-data)
+       (repeat)
+       (take document-multiplier)
+       (flatten)
+       (map-indexed (fn [file-counter file-data]
+                      (assoc file-data :filename (str file-counter ".pdf"))))))
+
 (defn bulk-data []
   { :token "15bfebf975034d9c8279da56900a43dd",
     :replyto "http://ricardofiel.com",
-    :filename "my_bulk_test.zip",
-    :contents (->> (bulk-contents-data)
-                   (repeat)
-                   (take document-multiplier)
-                   (flatten)
-                   (map-indexed (fn [idx file-data]
-                      (assoc file-data :filename (str idx ".pdf")))))})
+    :filename "my_bulk_test",
+    :contents (setup-bulk-contents)})
+
+(defn change-file-name [data stress-count request-count]
+  (println (data :filename))
+  (assoc data :filename (str "bulk_test_" (str stress-count request-count))))
 
 (defn do-request [endpoint data]
-  (println ".Calling " endpoint)
+  (println ".Calling" endpoint "for the file" (data :filename))
   (client/post endpoint { :content-type :json
                           :body (json/write-str data)
                           :socket-timeout 1000
@@ -60,18 +67,19 @@
     (let [response request-ch]
       (println ".Response" response))))
 
-(defn stress-out [url endpoint bulk-data]
+(defn stress-out [url endpoint bulk-data stress-count]
   (dotimes [n requesting-times]
     (future 
-      (try
-        (do-request (url-for url endpoint) bulk-data )
-        (catch Exception e
-          (prn e))))))
+      ;;(try
+        (do-request (url-for url endpoint) (change-file-name bulk-data stress-count  n))
+        ;;(catch Exception e
+          ;;(prn e))))))
+      )))
 
 (defn start-stressing [urls endpoint bulk-data]
   (dotimes [n stressing-times]
     (doseq [url urls]
-      (stress-out url endpoint bulk-data)
+      (stress-out url endpoint bulk-data n)
       (prn "--- sleep 1s" )
       (<!! (timeout 1000)))))
 
