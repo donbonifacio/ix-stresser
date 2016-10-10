@@ -1,12 +1,13 @@
 (ns ix-stresser.pdfnode
-  (:require [clj-http.client :as client]
+  (:require [environ.core :refer [env]]
+            [clj-http.client :as client]
             [clojure.core.async :as async :refer [<! <!! go go-loop timeout]]
             [clojure.data.json :as json]))
 
 (def base-files-path "./doc/")
 (def dev-url "http://localhost:3000")
-(def stag-url "http://pdfnode-staging.cloudapp.net")
-(def prod-url "http://pdfnode.cloudapp.net")
+(def stag-url (env :pdfnode-stag-url))
+(def prod-url (env :pdfnode-prod-url))
 (def existing-files ["invoice_small.json", "invoice_medium.json", "invoice_big.json"])
 (def stressing-times 1)
 (def requesting-times 1)
@@ -23,10 +24,13 @@
           {}
           existing-files))
 
+(defn set-pdfnode-token [request-data]
+  (assoc (json/read-str request-data) :token (env :pdfnode-token)))
+
 (defn do-request [endpoint data]
-  (println ".Calling" endpoint)
+  (println "\n.Calling" endpoint "with token" (data :token))
   (client/post endpoint { :content-type :json
-                          :body data
+                          :body (json/write-str data)
                           :socket-timeout 1000
                           :conn-timeout 1000
                           :accept :json }))
@@ -39,7 +43,12 @@
 (defn stress-out [url endpoint files-data]
   (doseq [filename existing-files]
     (dotimes [n requesting-times]
-      (future (do-request (url-for url endpoint) (files-data (keyword filename)) )))))
+      (future 
+        ;; (try
+          (do-request (url-for url endpoint) (set-pdfnode-token (files-data (keyword filename))))
+        ;; (catch Exception e
+          ;;(prn e)))
+        ))))
 
 (defn start-stressing [urls endpoint files-data]
   (dotimes [n stressing-times]
@@ -50,10 +59,10 @@
 
 (defn runner [args]
   (let [endpoint (or (first args) "/pdf/applyTemplate")]
-    (start-stressing [dev-url] endpoint (read-all-files)) ;; stressing localy
+    ;; (start-stressing [dev-url] endpoint (read-all-files)) ;; stressing localy
     ;; (start-stressing [stag-url] endpoint (read-all-files)) ;; stressing staging
     ;; (start-stressing [prod-url] endpoint (read-all-files)) ;; stressing production
-    ;; (start-stressing [stag-url, prod-url] endpoint (read-all-files)) ;; stressing multiple envs
+    (start-stressing [dev-url, stag-url, prod-url] endpoint (read-all-files)) ;; stressing multiple envs
     (prn "OK!")))
 
 (defn -main [& args]

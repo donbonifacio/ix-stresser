@@ -1,12 +1,13 @@
 (ns ix-stresser.pdfbulknode
-  (:require [clj-http.client :as client]
+  (:require [environ.core :refer [env]]
+            [clj-http.client :as client]
             [clojure.core.async :as async :refer [<! <!! go go-loop timeout]]
             [clojure.data.json :as json]))
 
 (def base-files-path "./doc/")
 (def dev-url "http://localhost:3000")
-(def stag-url "http://pdfnode-staging.cloudapp.net")
-(def prod-url "http://pdfnode.cloudapp.net")
+(def stag-url (env :pdfnode-stag-url))
+(def prod-url (env :pdfnode-prod-url))
 (def existing-files ["invoice_small.json", "invoice_medium.json", "invoice_big.json"])
 
 (def document-multiplier 1) ;; 1 will mean a single bulk having 3 invoices, small, medium and big
@@ -45,7 +46,7 @@
                       (assoc file-data :filename (str file-counter ".pdf"))))))
 
 (defn bulk-data []
-  { :token "15bfebf975034d9c8279da56900a43dd",
+  { :token (env :pdfnode-token),
     :replyto "http://ricardofiel.com",
     :filename "my_bulk_test",
     :contents (setup-bulk-contents)})
@@ -85,10 +86,10 @@
 
 (defn runner [args]
   (let [endpoint (or (first args) "/pdf/applyTemplateBulk")]
-    (start-stressing [dev-url] endpoint (bulk-data)) ;; stressing localy
+    ;; (start-stressing [dev-url] endpoint (bulk-data)) ;; stressing localy
     ;; (start-stressing [stag-url] endpoint (bulk-data)) ;; stressing staging
     ;; (start-stressing [prod-url] endpoint (bulk-data)) ;; stressing production
-    ;; (start-stressing [stag-url, prod-url] endpoint (bulk-data)) ;; stressing multiple envs
+    (start-stressing [dev-url, stag-url, prod-url] endpoint (bulk-data)) ;; stressing multiple envs
     (prn "OK!")))
 
 (defn -main [& args]
