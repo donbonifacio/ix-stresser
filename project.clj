@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :aliases {"stress-sequences" ["run"]
+            "stress-estimates" ["run" "-m" "ix-stresser.estimates/-main"]
             "stress-basic-requests" ["run" "-m" "ix-stresser.basic-requests/-main"]
             "stress-pdfs" ["run" "-m" "ix-stresser.pdf/-main"]
             "stress-pdfnode" ["run" "-m" "ix-stresser.pdfnode/-main"]
