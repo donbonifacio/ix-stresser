@@ -10,6 +10,7 @@
             "stress-pdfnode" ["run" "-m" "ix-stresser.pdfnode/-main"]
             "stress-pdfbulknode" ["run" "-m" "ix-stresser.pdfbulknode/-main"]}
   :main ix-stresser.core
+  :uberjar-name "ix-stresser.jar"
   :dependencies [[org.clojure/clojure "1.9.0-alpha10"]
                  [org.clojure/core.async "0.2.385"]
                  [org.clojure/data.json "0.2.6"]
@@ -18,4 +19,5 @@
                  [invoice-spec "1.3.0"]
                  [weareswat/request-utils "0.5.0"]
                  [clj-http "3.2.0"]]
-  :plugins [[lein-environ "1.0.3"]])
+  :plugins [[lein-environ "1.0.3"]]
+  :profiles {:uberjar {:aot :all}})

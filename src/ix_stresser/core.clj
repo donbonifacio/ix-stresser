@@ -1,4 +1,5 @@
 (ns ix-stresser.core
+  (:gen-class)
   (:require [clj-http.client :as client]
             [invoice-spec.api.documents :as api]
             [invoice-spec.models.document :as document]
