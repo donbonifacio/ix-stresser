@@ -2,8 +2,10 @@
   (:require [clj-http.client :as client]
             [invoice-spec.api.documents :as api]
             [invoice-spec.models.document :as document]
+            [invoice-spec.api.common :as common]
             [environ.core :refer [env]]
             [result.core :as result]
+            [request-utils.core :as request-utils]
             [clojure.core.async :as async :refer [<! <!! go go-loop]]))
 
 (def current-port-index (atom 0))
@@ -93,8 +95,11 @@
     (clojure.string/split raw #",")
     ["3001"]))
 
+(defn- ix-auto-create-account? []
+  (= "true" (env :ix-auto-create-account)))
+
 (defn defaults [args]
-  (merge {:docs-per-thread 30
+  (merge {:docs-per-thread 1
           :threads 1
           :simul-state-changes 3
           :ix-ports (ix-ports)
@@ -149,17 +154,45 @@
   (prn ":docs-per-thread" (:docs-per-thread options))
   (prn ":simul-state-changes" (:simul-state-changes options)))
 
+(defn- setup [options]
+  (if (ix-auto-create-account?)
+    (let [port (:port (balancer options))
+          request-xml (str"<account>
+                            <organization_name>ix-stresser</organization_name>
+                            <email>" (System/currentTimeMillis)  "@example.com</email>
+                            <password>123456</password>
+                            <terms>1</terms>
+                          </account>")
+          result (<!! (request-utils/http-post
+                         {:host (str "http://localhost:"port"/api/accounts/create.xml")
+                          :plain-body? true
+                          :headers {"Content-type" "application/xml; charset=utf-8"}
+                          :body request-xml}))]
+      (println "Creating account...")
+      (when (result/failed? result)
+        (println request-xml)
+        (println result)
+        (System/exit 1))
+      (let [data (common/load-from-xml (:body result))]
+        (println data)
+        (assoc options :api-key (:api_key data))))
+    options))
+
 (defn runner [args]
-  (<!! (go
-    (let [options (defaults args)]
-      (prn-options options)
-      (let [documents (doall (create-bulk-documents options))
-            finalized (<! (finalize-documents options documents))
-            finalize-result (verify-finalized finalized)
-            settled (<! (settle-documents options finalized))
-            settle-result (verify-settled options settled)
-            ]
-        (prn "OK!"))))))
+  (<!!
+    (go
+      (try
+        (let [options (-> args (defaults) (setup))]
+          (prn-options options)
+          (let [documents (doall (create-bulk-documents options))
+                finalized (<! (finalize-documents options documents))
+                finalize-result (verify-finalized finalized)
+                settled (<! (settle-documents options finalized))
+                settle-result (verify-settled options settled)
+                ]
+            (prn "OK!")))
+        (catch Exception ex
+          (println ex))))))
 
 (defn -main [& args]
   (runner {}))
