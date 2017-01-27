@@ -5,6 +5,7 @@
             [invoice-spec.api.common :as common]
             [environ.core :refer [env]]
             [result.core :as result]
+            [ix-stresser.server :as server]
             [request-utils.core :as request-utils]
             [clojure.core.async :as async :refer [<! <!! go go-loop]]))
 
@@ -60,7 +61,7 @@
 
       (if (nil? sequence-number)
         (prn result1 result2 result3)
-        (do (print "F") (flush)))
+        (do (print ".") (flush)))
       (if-let [documents (seq (rest documents))]
         (recur documents (conj final-documents result))
         (conj final-documents result)))))
@@ -85,7 +86,7 @@
 
       (if (nil? sequence-number)
         (prn result1 result2 result3)
-        (do (print "S") (flush)))
+        (do (print ".") (flush)))
       (if-let [documents (seq (rest documents))]
         (recur documents (conj final-documents result))
         (conj final-documents result)))))
@@ -98,8 +99,11 @@
 (defn- ix-auto-create-account? []
   (= "true" (env :ix-auto-create-account)))
 
+(defn- ix-start-instances? []
+  (= "true" (env :ix-start-instances)))
+
 (defn defaults [args]
-  (merge {:docs-per-thread 1
+  (merge {:docs-per-thread 30
           :threads 1
           :simul-state-changes 3
           :ix-ports (ix-ports)
@@ -155,11 +159,15 @@
   (prn ":simul-state-changes" (:simul-state-changes options)))
 
 (defn- setup [options]
+  (when (ix-start-instances?)
+    (server/start-instances options)
+    (server/wait-instances options))
+
   (if (ix-auto-create-account?)
     (let [port (:port (balancer options))
           request-xml (str"<account>
                             <organization_name>ix-stresser</organization_name>
-                            <email>" (System/currentTimeMillis)  "@example.com</email>
+                            <email>" (System/currentTimeMillis) (str (java.util.UUID/randomUUID))  "@example.com</email>
                             <password>123456</password>
                             <terms>1</terms>
                           </account>")
@@ -190,6 +198,7 @@
                 settled (<! (settle-documents options finalized))
                 settle-result (verify-settled options settled)
                 ]
+            (shutdown-agents)
             (prn "OK!")))
         (catch Exception ex
           (println ex))))))
