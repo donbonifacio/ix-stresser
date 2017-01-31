@@ -14,8 +14,8 @@
 
 (defn new-invoice []
   (-> (document/new-invoice)
-      (assoc :date "21/09/2016")
-      (assoc :due_date "21/09/2016")))
+      (assoc :date "21/01/2017")
+      (assoc :due_date "21/01/2017")))
 
 (defn balancer [options]
   (let [ix-ports (:ix-ports options)
@@ -66,6 +66,15 @@
       (if-let [documents (seq (rest documents))]
         (recur documents (conj final-documents result))
         (conj final-documents result)))))
+
+(defn finalize-parallel-documents
+  [options documents]
+  (println)
+  (println "-- Finalizing documents")
+  (->> documents
+       (pmap #(do (api/finalize (balancer options) %)
+                  (do (print ".") (flush))))
+       (map deref)))
 
 (defn settle-documents [options documents]
   (println)
@@ -203,6 +212,15 @@
             (prn "OK!")))
         (catch Exception ex
           (println ex))))))
+
+(defn runner-parallel-distict-finalize [args]
+  (<!! (go
+    (let [options (defaults args)]
+      (prn-options options)
+      (let [documents (doall (create-bulk-documents options))
+            finalized (<! (finalize-parallel-documents options documents))
+            ]
+        (prn "OK!"))))))
 
 (defn -main [& args]
   (runner {}))
