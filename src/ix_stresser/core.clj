@@ -70,11 +70,15 @@
 (defn finalize-parallel-documents
   [options documents]
   (println)
-  (println "-- Finalizing documents")
-  (->> documents
-       (pmap #(do (api/finalize (balancer options) %)
-                  (do (print ".") (flush))))
-       (map deref)))
+  (println "-- Finalizing all documents in parallel")
+  (go
+    (try
+      (->> documents
+           (pmap #(do (do (print ".") (flush))
+                      (api/finalize (balancer options) %)))
+           (mapv <!!))
+      (catch Exception ex
+        (println ex)))))
 
 (defn settle-documents [options documents]
   (println)
@@ -125,9 +129,12 @@
          args))
 
 (defn extract-document-number [document]
-  (let [sequence-number (:sequence_number document)
-        parts (clojure.string/split sequence-number #"/")]
-    (read-string (first parts))))
+  (try
+    (let [sequence-number (:sequence_number document)
+          parts (clojure.string/split sequence-number #"/")]
+      (read-string (first parts)))
+    (catch Exception ex
+      (println "Error getting doc number" document ex))))
 
 (defn verify-finalized [documents]
   (let [numbers (->> documents
@@ -213,12 +220,13 @@
         (catch Exception ex
           (println ex))))))
 
-(defn runner-parallel-distict-finalize [args]
+(defn runner-parallel-distinct-finalize [& args]
   (<!! (go
-    (let [options (defaults args)]
+    (let [options (-> args (defaults) (setup))]
       (prn-options options)
       (let [documents (doall (create-bulk-documents options))
             finalized (<! (finalize-parallel-documents options documents))
+            finalize-result (verify-finalized finalized)
             ]
         (prn "OK!"))))))
 
